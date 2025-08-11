@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI Calculator - NEXUS Tools</title>
+  <meta name="description" content="Calculate your Body Mass Index (BMI) and see your weight category.">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="manifest" href="manifest.webmanifest">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
+</head>
+<body class="bg-gray-900 text-white">
+  <div class="container mx-auto p-4">
+    <header class="mb-8">
+      <a href="index.html" class="text-blue-400 hover:underline">&larr; Back to Home</a>
+      <h1 class="text-3xl font-bold mt-2">BMI Calculator</h1>
+      <p class="text-gray-400">Calculate your Body Mass Index and check your category.</p>
+    </header>
+    <div class="bg-gray-800 p-4 rounded-lg shadow max-w-md mx-auto">
+      <label class="block mb-2">Weight (kg):</label>
+      <input id="weight" type="number" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="e.g., 70">
+      <label class="block mt-4 mb-2">Height (cm):</label>
+      <input id="height" type="number" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="e.g., 170">
+      <button id="bmiCalc" class="mt-4 bg-blue-600 hover:bg-blue-500 text-white py-2 px-4 rounded w-full">Calculate BMI</button>
+      <p id="bmiResult" class="mt-4 text-green-400 font-semibold"></p>
+    </div>
+    <!-- Advertisement Placeholder -->
+    <div class="my-8 bg-gray-800 p-4 rounded-lg text-center text-gray-400">
+      Advertisement
+    </div>
+  </div>
+  <script>
+    document.getElementById('bmiCalc').addEventListener('click', () => {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const heightCm = parseFloat(document.getElementById('height').value);
+      if (!isNaN(weight) && !isNaN(heightCm) && heightCm > 0) {
+        const heightM = heightCm / 100;
+        const bmi = weight / (heightM * heightM);
+        let category;
+        if (bmi < 18.5) category = 'Underweight';
+        else if (bmi < 25) category = 'Normal weight';
+        else if (bmi < 30) category = 'Overweight';
+        else category = 'Obese';
+        document.getElementById('bmiResult').textContent = `Your BMI is ${bmi.toFixed(1)} (${category}).`;
+      } else {
+        document.getElementById('bmiResult').textContent = 'Please enter valid weight and height values.';
+      }
+    });
+  </script>
+</body>
+</html>
