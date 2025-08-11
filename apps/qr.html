@@ -1,0 +1,47 @@
+h
+<DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Generator | NEXUS Tools</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+</head>
+<body class="bg-gray-950 text-white min-h-screen flex flex-col items-center py-6">
+<header class="mb-6 text-center">
+  <h1 class="text-4xl font-bold">QR Code Generator</h1>
+  <p class="text-gray-400">Generate QR codes for any text or URL</p>
+</header>
+<main class="w-full max-w-md p-4 bg-gray-900 rounded-xl shadow-lg">
+  <div class="mb-4">
+    <label for="qr-input" class="block mb-1">Enter text or URL</label>
+    <input id="qr-input" type="text" class="w-full p-2 rounded text-black" placeholder="Enter content">
+  </div>
+  <button id="generateBtn" class="w-full bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded">Generate QR Code</button>
+  <canvas id="qr-canvas" class="mx-auto mt-4 bg-white"></canvas>
+  <a id="downloadLink" href="#" download="qr-code.png" class="hidden mt-2 text-blue-400 underline">Download QR Code</a>
+</main>
+<div id="ad-container" class="mt-8 w-full max-w-md h-32 bg-gray-800 rounded flex items-center justify-center">
+  <span class="text-sm text-gray-400">Advertisement</span>
+</div>
+<script>
+const qr = new QRious({
+  element: document.getElementById('qr-canvas'),
+  size: 250,
+  value: ''
+});
+
+document.getElementById('generateBtn').addEventListener('click', () => {
+  const text = document.getElementById('qr-input').value;
+  qr.value = text;
+  const dataURL = qr.toDataURL('image/png');
+  const downloadLink = document.getElementById('downloadLink');
+  downloadLink.href = dataURL;
+  if (text.trim() !== '') {
+    downloadLink.classList.remove('hidden');
+  }
+});
+</script>
+</body>
+</html>
