@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Toolkit - NEXUS Tools</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class'}</script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center p-4">
+  <header class="w-full flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Text Toolkit</h1>
+    <a href="index.html" class="text-blue-400 hover:underline">&larr; Back to Home</a>
+  </header>
+  <div class="flex flex-col w-full max-w-3xl bg-gray-800 p-4 rounded-lg shadow">
+    <textarea id="inputText" rows="6" class="mb-4 p-2 bg-gray-700 rounded" placeholder="Enter your text here"></textarea>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-4">
+      <button data-action="uppercase" class="p-2 bg-blue-600 rounded hover:bg-blue-700">UPPERCASE</button>
+      <button data-action="lowercase" class="p-2 bg-blue-600 rounded hover:bg-blue-700">lowercase</button>
+      <button data-action="titlecase" class="p-2 bg-blue-600 rounded hover:bg-blue-700">Title Case</button>
+      <button data-action="wordcount" class="p-2 bg-blue-600 rounded hover:bg-blue-700">Word Count</button>
+      <button data-action="sort" class="p-2 bg-blue-600 rounded hover:bg-blue-700">Sort Lines</button>
+      <button data-action="dedupe" class="p-2 bg-blue-600 rounded hover:bg-blue-700">Remove Duplicates</button>
+      <button data-action="slugify" class="p-2 bg-blue-600 rounded hover:bg-blue-700">Slugify</button>
+      <button id="copyResult" class="p-2 bg-green-600 rounded hover:bg-green-700">Copy Result</button>
+    </div>
+    <div id="result" class="p-2 bg-gray-700 rounded whitespace-pre-wrap"></div>
+    <div class="mt-4 p-2 bg-gray-700 text-center rounded">Advertisement</div>
+  </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const input = document.getElementById('inputText');
+  const result = document.getElementById('result');
+  function transform(action) {
+    const text = input.value;
+    switch(action) {
+      case 'uppercase': return text.toUpperCase();
+      case 'lowercase': return text.toLowerCase();
+      case 'titlecase': return text.replace(/\w\S*/g, function(w){ return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();});
+      case 'wordcount': {
+        const count = text.trim().split(/\s+/).filter(Boolean).length;
+        return 'Word Count: ' + count;
+      }
+      case 'sort': {
+        return text.split('\n').sort().join('\n');
+      }
+      case 'dedupe': {
+        const lines = text.split('\n');
+        const unique = [...new Set(lines)];
+        return unique.join('\n');
+      }
+      case 'slugify': {
+        return text.trim().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-');
+      }
+      default: return text;
+    }
+  }
+  document.querySelectorAll('button[data-action]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const action = btn.getAttribute('data-action');
+      const output = transform(action);
+      result.textContent = output;
+    });
+  });
+  document.getElementById('copyResult').addEventListener('click', function() {
+    const text = result.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const copyBtn = document.getElementById('copyResult');
+      copyBtn.textContent = 'Copied!';
+      setTimeout(()=>{ copyBtn.textContent = 'Copy Result'; }, 2000);
+    });
+  });
+});
+</script>
+</body>
+</html>
