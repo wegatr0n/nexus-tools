@@ -1,0 +1,9 @@
+{
+  "name": "NEXUS Tools",
+  "short_name": "NEXUS",
+  "start_url": "index.html",
+  "display": "standalone",
+  "theme_color": "#111827",
+  "background_color": "#000000",
+  "description": "Free in-browser tools: Meme Maker, Image Compressor, Password Generator, Text Toolkit, JSON Formatter, Unit Converter, QR Code Generator, Color Palette Studio, Markdown Viewer."
+}
