@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wegatr0n.github.io/nexus-tools/sitemap.xml
