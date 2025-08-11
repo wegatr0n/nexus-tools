@@ -1,74 +1,76 @@
-https://github.com/wegatr0n/nexus-tools/tree/main/apps
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JSON Formatter - NEXUS Tools</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={darkMode:'class'}</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter - Nexus Tools</title>
+    <link rel="manifest" href="../manifest.webmanifest">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = { darkMode: 'class' };
+    </script>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex flex-col items-center p-4">
-  <header class="w-full flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold">JSON Formatter</h1>
-    <a href="index.html" class="text-blue-400 hover:underline">&larr; Back to Home</a>
-  </header>
-  <div class="flex flex-col w-full max-w-3xl bg-gray-800 p-4 rounded-lg shadow">
-    <textarea id="jsonInput" rows="6" class="mb-4 p-2 bg-gray-700 rounded" placeholder="Paste JSON here"></textarea>
-    <div class="flex flex-wrap gap-2 mb-4">
-      <button id="prettyBtn" class="p-2 bg-blue-600 rounded hover:bg-blue-700">Pretty Print</button>
-      <button id="minifyBtn" class="p-2 bg-blue-600 rounded hover:bg-blue-700">Minify</button>
-      <button id="validateBtn" class="p-2 bg-blue-600 rounded hover:bg-blue-700">Validate</button>
-      <button id="copyJsonBtn" class="p-2 bg-green-600 rounded hover:bg-green-700">Copy Output</button>
+    <header class="w-full flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">JSON Formatter</h1>
+        <a href="index.html" class="text-blue-400 hover:underline">&larr; Back to Home</a>
+    </header>
+    <div class="flex flex-col w-full max-w-3xl bg-gray-800 p-4 rounded-lg shadow">
+        <textarea id="jsonInput" rows="6" class="mb-4 p-2 bg-gray-700 rounded" placeholder="Paste JSON here"></textarea>
+        <div class="flex flex-wrap gap-2 mb-4">
+            <button id="prettyBtn" class="p-2 bg-blue-600 rounded hover:bg-blue-700">Pretty Print</button>
+            <button id="minifyBtn" class="p-2 bg-blue-600 rounded hover:bg-blue-700">Minify</button>
+            <button id="validateBtn" class="p-2 bg-blue-600 rounded hover:bg-blue-700">Validate</button>
+            <button id="copyJsonBtn" class="p-2 bg-green-600 rounded hover:bg-green-700">Copy Output</button>
+        </div>
+        <pre id="jsonOutput" class="p-2 bg-gray-700 rounded whitespace-pre-wrap mb-4"></pre>
+        <div id="jsonMessage" class="mb-4"></div>
+        <div class="mt-4 p-2 bg-gray-700 text-center rounded">Advertisement</div>
     </div>
-    <div id="jsonOutput" class="p-2 bg-gray-700 rounded whitespace-pre-wrap mb-4"></div>
-    <div id="jsonMessage" class="mb-4"></div>
-    <div class="mt-4 p-2 bg-gray-700 text-center rounded">Advertisement</div>
-  </div>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const input = document.getElementById('jsonInput');
-  const output = document.getElementById('jsonOutput');
-  const message = document.getElementById('jsonMessage');
-  document.getElementById('prettyBtn').addEventListener('click', function() {
-    try {
-      const obj = JSON.parse(input.value);
-      output.textContent = JSON.stringify(obj, null, 2);
-      message.textContent = '';
-    } catch (e) {
-      message.textContent = 'Invalid JSON';
-      message.className = 'text-red-400';
-    }
-  });
-  document.getElementById('minifyBtn').addEventListener('click', function() {
-    try {
-      const obj = JSON.parse(input.value);
-      output.textContent = JSON.stringify(obj);
-      message.textContent = '';
-    } catch (e) {
-      message.textContent = 'Invalid JSON';
-      message.className = 'text-red-400';
-    }
-  });
-  document.getElementById('validateBtn').addEventListener('click', function() {
-    try {
-      JSON.parse(input.value);
-      message.textContent = 'Valid JSON';
-      message.className = 'text-green-400';
-    } catch (e) {
-      message.textContent = 'Invalid JSON';
-      message.className = 'text-red-400';
-    }
-  });
-  document.getElementById('copyJsonBtn').addEventListener('click', function() {
-    navigator.clipboard.writeText(output.textContent).then(() => {
-      const btn = document.getElementById('copyJsonBtn');
-      btn.textContent = 'Copied!';
-      setTimeout(() => { btn.textContent = 'Copy Output'; }, 2000);
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const input = document.getElementById('jsonInput');
+        const output = document.getElementById('jsonOutput');
+        const message = document.getElementById('jsonMessage');
+
+        document.getElementById('prettyBtn').addEventListener('click', () => {
+            try {
+                const obj = JSON.parse(input.value);
+                output.textContent = JSON.stringify(obj, null, 2);
+                message.textContent = '';
+            } catch (e) {
+                message.textContent = 'Invalid JSON';
+                message.className = 'text-red-400';
+            }
+        });
+        document.getElementById('minifyBtn').addEventListener('click', () => {
+            try {
+                const obj = JSON.parse(input.value);
+                output.textContent = JSON.stringify(obj);
+                message.textContent = '';
+            } catch (e) {
+                message.textContent = 'Invalid JSON';
+                message.className = 'text-red-400';
+            }
+        });
+        document.getElementById('validateBtn').addEventListener('click', () => {
+            try {
+                JSON.parse(input.value);
+                message.textContent = 'Valid JSON';
+                message.className = 'text-green-400';
+            } catch (e) {
+                message.textContent = 'Invalid JSON';
+                message.className = 'text-red-400';
+            }
+        });
+        document.getElementById('copyJsonBtn').addEventListener('click', () => {
+            navigator.clipboard.writeText(output.textContent).then(() => {
+                const btn = document.getElementById('copyJsonBtn');
+                btn.textContent = 'Copied!';
+                setTimeout(() => { btn.textContent = 'Copy Output'; }, 2000);
+            });
+        });
     });
-  });
-});
-</script>
+    </script>
 </body>
 </html>
