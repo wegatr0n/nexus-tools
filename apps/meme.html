@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meme Maker - NEXUS Tools</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center p-4">
+  <header class="w-full flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Meme Maker</h1>
+    <a href="index.html" class="text-blue-400 hover:underline">&larr; Back to Home</a>
+  </header>
+  <div class="flex flex-col w-full max-w-3xl bg-gray-800 p-4 rounded-lg shadow">
+    <input type="file" id="imageInput" accept="image/*" class="mb-4 p-2 bg-gray-700 rounded">
+    <input type="text" id="topText" placeholder="Top Text" class="mb-2 p-2 bg-gray-700 rounded">
+    <input type="text" id="bottomText" placeholder="Bottom Text" class="mb-4 p-2 bg-gray-700 rounded">
+    <canvas id="memeCanvas" class="border border-gray-700 w-full"></canvas>
+    <button id="downloadBtn" class="mt-4 p-2 bg-blue-600 rounded hover:bg-blue-700">Download Meme</button>
+    <div class="mt-4 p-2 bg-gray-700 text-center rounded">Advertisement</div>
+  </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const fileInput = document.getElementById('imageInput');
+  const topTextInput = document.getElementById('topText');
+  const bottomTextInput = document.getElementById('bottomText');
+  const canvas = document.getElementById('memeCanvas');
+  const ctx = canvas.getContext('2d');
+  let image = new Image();
+
+  function drawMeme() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (image.src) {
+      canvas.width = image.width;
+      canvas.height = image.height;
+      ctx.drawImage(image, 0, 0);
+      const fontSize = Math.floor(canvas.height / 10);
+      ctx.font = fontSize + 'px Impact';
+      ctx.textAlign = 'center';
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = fontSize / 20;
+      ctx.fillStyle = 'white';
+      ctx.textBaseline = 'top';
+      const topText = topTextInput.value.toUpperCase();
+      ctx.strokeText(topText, canvas.width / 2, 10);
+      ctx.fillText(topText, canvas.width / 2, 10);
+      const bottomText = bottomTextInput.value.toUpperCase();
+      ctx.textBaseline = 'bottom';
+      ctx.strokeText(bottomText, canvas.width / 2, canvas.height - 10);
+      ctx.fillText(bottomText, canvas.width / 2, canvas.height - 10);
+    }
+  }
+
+  fileInput.addEventListener('change', function() {
+    const file = fileInput.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function() {
+      image = new Image();
+      image.onload = drawMeme;
+      image.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  topTextInput.addEventListener('input', drawMeme);
+  bottomTextInput.addEventListener('input', drawMeme);
+
+  document.getElementById('downloadBtn').addEventListener('click', function() {
+    const link = document.createElement('a');
+    link.download = 'meme.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+});
+</script>
+</body>
+</html>
