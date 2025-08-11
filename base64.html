@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Base64 Encoder/Decoder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+<header class="w-full flex justify-between items-center mb-6 p-4">
+  <h1 class="text-3xl font-bold">Base64 Encoder/Decoder</h1>
+  <a href="index.html" class="text-blue-400 hover:underline">&larr; Back to Home</a>
+</header>
+<main class="max-w-3xl mx-auto">
+  <div class="mb-4">
+    <label for="inputText" class="block mb-2">Input Text / Base64</label>
+    <textarea id="inputText" rows="6" class="w-full p-2 bg-gray-800 rounded"></textarea>
+  </div>
+  <div class="flex space-x-2 mb-4">
+    <button id="encodeBtn" class="p-2 bg-blue-600 rounded hover:bg-blue-700">Encode to Base64</button>
+    <button id="decodeBtn" class="p-2 bg-green-600 rounded hover:bg-green-700">Decode from Base64</button>
+    <button id="copyBtn" class="p-2 bg-indigo-600 rounded hover:bg-indigo-700">Copy Result</button>
+  </div>
+  <div class="mb-4">
+    <label for="outputText" class="block mb-2">Result</label>
+    <textarea id="outputText" rows="6" class="w-full p-2 bg-gray-800 rounded" readonly></textarea>
+  </div>
+  <div class="mt-4 p-2 bg-gray-800 rounded">Advertisement</div>
+</main>
+<script>
+document.getElementById('encodeBtn').addEventListener('click', function() {
+  const input = document.getElementById('inputText').value;
+  const encoded = btoa(unescape(encodeURIComponent(input)));
+  document.getElementById('outputText').value = encoded;
+});
+document.getElementById('decodeBtn').addEventListener('click', function() {
+  const input = document.getElementById('inputText').value;
+  try {
+    const decoded = decodeURIComponent(escape(atob(input)));
+    document.getElementById('outputText').value = decoded;
+  } catch (e) {
+    document.getElementById('outputText').value = 'Invalid Base64 string';
+  }
+});
+document.getElementById('copyBtn').addEventListener('click', function() {
+  const output = document.getElementById('outputText');
+  output.select();
+  document.execCommand('copy');
+});
+</script>
+</body>
+</html>
