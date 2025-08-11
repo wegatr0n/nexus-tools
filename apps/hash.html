@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hash Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Generate cryptographic hashes (SHA-1, SHA-256, SHA-384, SHA-512) of input text.">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center py-10">
+  <div class="container mx-auto px-4">
+    <a href="index.html" class="text-blue-400 hover:underline mb-4 inline-block">&larr; Back to Home</a>
+    <h1 class="text-3xl font-bold mb-4">Hash Generator</h1>
+    <textarea id="input" class="w-full p-2 text-black rounded mb-4" rows="4" placeholder="Enter text here..."></textarea>
+    <div class="flex flex-wrap gap-2 mb-4">
+      <button onclick="generateHash('SHA-1')" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">SHA-1</button>
+      <button onclick="generateHash('SHA-256')" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">SHA-256</button>
+      <button onclick="generateHash('SHA-384')" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">SHA-384</button>
+      <button onclick="generateHash('SHA-512')" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">SHA-512</button>
+    </div>
+    <textarea id="output" class="w-full p-2 text-black rounded mb-2" rows="4" placeholder="Hash output..." readonly></textarea>
+    <button onclick="copyOutput()" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded">Copy Hash</button>
+    <div id="ad-container" class="mt-6 text-center text-gray-400">Advertisement</div>
+  </div>
+  <script>
+    async function generateHash(algorithm) {
+      const text = document.getElementById('input').value;
+      const encoder = new TextEncoder();
+      const data = encoder.encode(text);
+      try {
+        const digest = await crypto.subtle.digest(algorithm, data);
+        const hashArray = Array.from(new Uint8Array(digest));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        document.getElementById('output').value = hashHex;
+      } catch (err) {
+        document.getElementById('output').value = 'Error computing hash: ' + err;
+      }
+    }
+    function copyOutput() {
+      const output = document.getElementById('output');
+      output.select();
+      document.execCommand('copy');
+    }
+  </script>
+</body>
+</html>
