@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Viewer | NEXUS Tools</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="bg-gray-950 text-white min-h-screen flex flex-col items-center py-6">
+<header class="mb-6 text-center">
+  <h1 class="text-4xl font-bold">Markdown Viewer</h1>
+  <p class="text-gray-400">Preview Markdown in real time</p>
+</header>
+<main class="w-full max-w-4xl p-4 bg-gray-900 rounded-xl shadow-lg grid md:grid-cols-2 gap-4">
+  <div>
+    <label for="md-input" class="block mb-1">Markdown Input</label>
+    <textarea id="md-input" rows="15" class="w-full p-2 rounded text-black" placeholder="# Hello world"></textarea>
+  </div>
+  <div>
+    <label class="block mb-1">Preview</label>
+    <div id="md-preview" class="p-4 bg-gray-800 rounded overflow-y-auto h-[350px] prose prose-invert"></div>
+  </div>
+</main>
+<div id="ad-container" class="mt-8 w-full max-w-4xl h-32 bg-gray-800 rounded flex items-center justify-center">
+  <span class="text-sm text-gray-400">Advertisement</span>
+</div>
+<script>
+const input = document.getElementById('md-input');
+const preview = document.getElementById('md-preview');
+function updatePreview() {
+  const text = input.value;
+  preview.innerHTML = marked.parse(text);
+}
+input.addEventListener('input', updatePreview);
+updatePreview();
+</script>
+</body>
+</html>
