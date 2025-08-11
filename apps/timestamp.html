@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timestamp Converter - NEXUS Tools</title>
+  <meta name="description" content="Convert Unix timestamps to human-readable dates and vice versa.">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('../sw.js');
+      });
+    }
+  </script>
+</head>
+<body class="bg-gray-900 text-white">
+  <div class="container mx-auto p-4">
+    <header class="mb-8">
+      <a href="index.html" class="text-blue-400 hover:underline">&larr; Back to Home</a>
+      <h1 class="text-3xl font-bold mt-2">Timestamp Converter</h1>
+      <p class="text-gray-400">Convert between Unix timestamps and human dates.</p>
+    </header>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-gray-800 p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-4">Unix to Date</h2>
+        <label class="block mb-2">Enter Unix timestamp (seconds):</label>
+        <input id="unixInput" type="number" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="e.g., 1627814400">
+        <button id="unixConvert" class="mt-3 bg-blue-600 hover:bg-blue-500 text-white py-2 px-4 rounded">Convert to Date</button>
+        <p id="unixResult" class="mt-3 text-green-400"></p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-4">Date to Unix</h2>
+        <label class="block mb-2">Select date and time:</label>
+        <input id="dateInput" type="datetime-local" class="w-full p-2 rounded bg-gray-700 text-white">
+        <button id="dateConvert" class="mt-3 bg-blue-600 hover:bg-blue-500 text-white py-2 px-4 rounded">Convert to Unix</button>
+        <p id="dateResult" class="mt-3 text-green-400"></p>
+      </div>
+    </div>
+    <div class="my-8 bg-gray-800 p-4 rounded-lg text-center text-gray-400">
+      Advertisement
+    </div>
+  </div>
+  <script>
+    document.getElementById('unixConvert').addEventListener('click', () => {
+      const unix = parseInt(document.getElementById('unixInput').value, 10);
+      if (!isNaN(unix)) {
+        const date = new Date(unix * 1000);
+        document.getElementById('unixResult').textContent = date.toString();
+      } else {
+        document.getElementById('unixResult').textContent = 'Please enter a valid Unix timestamp.';
+      }
+    });
+    document.getElementById('dateConvert').addEventListener('click', () => {
+      const dateValue = document.getElementById('dateInput').value;
+      if (dateValue) {
+        const date = new Date(dateValue);
+        const unix = Math.floor(date.getTime() / 1000);
+        document.getElementById('dateResult').textContent = unix.toString();
+      } else {
+        document.getElementById('dateResult').textContent = 'Please select a date and time.';
+      }
+    });
+  </script>
+</body>
+</html>
