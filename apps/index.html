@@ -1,0 +1,67 @@
+index.html<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NEXUS Tools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Free in-browser tools: Meme Maker, Image Compressor, Password Generator, Text Toolkit, JSON Formatter, Unit Converter, QR Code Generator, Color Palette Studio, Markdown Viewer.">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="manifest" href="../manifest.webmanifest">
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('../sw.js');
+  });
+}
+</script>
+</head>
+<body class="bg-gray-900 text-white">
+  <div class="container mx-auto p-4">
+    <header class="mb-8 text-center">
+      <h1 class="text-4xl font-bold mb-2">NEXUS Tools</h1>
+      <p class="text-lg">Free powerful utilities running in your browser</p>
+    </header>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <a href="meme.html" class="bg-gray-800 hover:bg-gray-700 p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Meme Maker</h2>
+        <p>Create memes with your own images and text.</p>
+      </a>
+      <a href="compress.html" class="bg-gray-800 hover:bg-gray-700 p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Image Compressor</h2>
+        <p>Compress images for web or social media.</p>
+      </a>
+      <a href="password.html" class="bg-gray-800 hover:bg-gray-700 p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Password Generator</h2>
+        <p>Generate secure random passwords.</p>
+      </a>
+      <a href="text.html" class="bg-gray-800 hover:bg-gray-700 p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Text Toolkit</h2>
+        <p>Transform and analyze text instantly.</p>
+      </a>
+      <a href="json.html" class="bg-gray-800 hover:bg-gray-700 p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">JSON Formatter</h2>
+        <p>Format and validate JSON data.</p>
+      </a>
+      <a href="unit.html" class="bg-gray-800 hover:bg-gray-700 p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Unit Converter</h2>
+        <p>Convert between units of measure.</p>
+      </a>
+      <a href="qr.html" class="bg-gray-800 hover:bg-gray-700 p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">QR Code Generator</h2>
+        <p>Create QR codes from text or URLs.</p>
+      </a>
+      <a href="colors.html" class="bg-gray-800 hover:bg-gray-700 p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Color Palette Studio</h2>
+        <p>Generate beautiful color palettes.</p>
+      </a>
+      <a href="markdown.html" class="bg-gray-800 hover:bg-gray-700 p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Markdown Viewer</h2>
+        <p>Render and preview Markdown text.</p>
+      </a>
+    </div>
+    <footer class="mt-8 text-center text-sm text-gray-400">
+      <p>&copy; 2025 NEXUS Tools. All rights reserved.</p>
+    </footer>
+  </div>
+</body>
+</html>
