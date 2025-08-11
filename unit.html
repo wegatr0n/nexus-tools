@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit Converter | NEXUS Tools</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-950 text-white min-h-screen flex flex-col items-center justify-center py-6">
+  <header class="mb-6 text-center">
+    <h1 class="text-4xl font-bold">Unit Converter</h1>
+    <p class="text-gray-400">Convert between various units of measurement</p>
+  </header>
+  <main class="w-full max-w-md p-4 bg-gray-900 rounded-xl shadow-lg">
+    <div class="mb-4">
+      <label for="category" class="block mb-1">Category</label>
+      <select id="category" class="w-full p-2 rounded text-black">
+        <option value="length">Length</option>
+        <option value="weight">Weight</option>
+        <option value="temperature">Temperature</option>
+      </select>
+    </div>
+    <div class="flex space-x-2 mb-4">
+      <div class="flex-1">
+        <label for="fromUnit" class="block mb-1">From</label>
+        <select id="fromUnit" class="w-full p-2 rounded text-black"></select>
+      </div>
+      <div class="flex-1">
+        <label for="toUnit" class="block mb-1">To</label>
+        <select id="toUnit" class="w-full p-2 rounded text-black"></select>
+      </div>
+    </div>
+    <div class="mb-4">
+      <label for="inputValue" class="block mb-1">Value</label>
+      <input id="inputValue" type="number" class="w-full p-2 rounded text-black" placeholder="Enter value">
+    </div>
+    <button id="convertBtn" class="w-full bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded">Convert</button>
+    <div id="output" class="mt-4 text-xl font-semibold"></div>
+  </main>
+  <div id="ad-container" class="mt-8 w-full max-w-md h-32 bg-gray-800 rounded flex items-center justify-center">
+    <span class="text-sm text-gray-400">Advertisement</span>
+  </div>
+  <script>
+    const categories = {
+      length: {
+        meter: 1,
+        kilometer: 1000,
+        centimeter: 0.01,
+        millimeter: 0.001,
+        mile: 1609.34,
+        yard: 0.9144,
+        foot: 0.3048,
+        inch: 0.0254,
+      },
+      weight: {
+        kilogram: 1,
+        gram: 0.001,
+        milligram: 0.000001,
+        pound: 0.453592,
+        ounce: 0.0283495,
+      },
+      temperature: {
+        Celsius: "C",
+        Fahrenheit: "F",
+        Kelvin: "K",
+      },
+    };
+
+    const categorySelect = document.getElementById('category');
+    const fromUnitSelect = document.getElementById('fromUnit');
+    const toUnitSelect = document.getElementById('toUnit');
+    const inputValue = document.getElementById('inputValue');
+    const convertBtn = document.getElementById('convertBtn');
+    const output = document.getElementById('output');
+
+    function populateUnits() {
+      const selected = categorySelect.value;
+      fromUnitSelect.innerHTML = '';
+      toUnitSelect.innerHTML = '';
+      const units = categories[selected];
+      for (const unit in units) {
+        const option1 = document.createElement('option');
+        option1.value = unit;
+        option1.text = unit;
+        fromUnitSelect.appendChild(option1);
+        const option2 = document.createElement('option');
+        option2.value = unit;
+        option2.text = unit;
+        toUnitSelect.appendChild(option2);
+      }
+    }
+
+    function convert() {
+      const category = categorySelect.value;
+      let value = parseFloat(inputValue.value);
+      const fromUnit = fromUnitSelect.value;
+      const toUnit = toUnitSelect.value;
+      if (isNaN(value)) {
+        output.textContent = '';
+        return;
+      }
+      if (category === 'temperature') {
+        let result;
+        if (fromUnit === toUnit) {
+          result = value;
+        } else {
+          let celsius;
+          if (fromUnit === 'Celsius') celsius = value;
+          else if (fromUnit === 'Fahrenheit') celsius = (value - 32) * 5/9;
+          else if (fromUnit === 'Kelvin') celsius = value - 273.15;
+
+          if (toUnit === 'Celsius') result = celsius;
+          else if (toUnit === 'Fahrenheit') result = (celsius * 9/5) + 32;
+          else if (toUnit === 'Kelvin') result = celsius + 273.15;
+        }
+        output.textContent = `${value} ${fromUnit} = ${result.toFixed(2)} ${toUnit}`;
+        return;
+      }
+
+      const baseValue = value * categories[category][fromUnit];
+      const converted = baseValue / categories[category][toUnit];
+      output.textContent = `${value} ${fromUnit} = ${converted} ${toUnit}`;
+    }
+
+    categorySelect.addEventListener('change', populateUnits);
+    convertBtn.addEventListener('click', convert);
+    populateUnits();
+  </script>
+</body>
+</html>
